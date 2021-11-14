@@ -43,6 +43,8 @@ const day4Temp$ = $("#day4Temp");
 const day4Wind$ = $("#day4Wind");
 const day4Humidity$ = $("#day4Humidity");
 
+const apiKey = "8956ae2d4e83819acd88b4e5164c6a82";
+
 let searches = JSON.parse(localStorage.getItem("cities")) || [];
 
 searches.length = 8;
@@ -51,20 +53,17 @@ searches.length = 8;
 function cityWeatherData() {
   $.ajax({
     url:
-      "https://api.opencagedata.com/geocode/v1/json?q=" +
-      searches[0] +
-      "&key=1d80a765d5e24da991479d79c7ef1bba",
+      `https://api.opencagedata.com/geocode/v1/json?q=${searches[0]}&key=${apiKey}`,
     type: "GET",
     success: function (results) {
       let cityCords = results.results[0].geometry;
       searchedLocation$.text(results.results[0].components.city);
       $.ajax({
         url:
-          "https://api.openweathermap.org/data/2.5/onecall?lat=" +
-          cityCords["lat"] +
-          "&lon=" +
-          cityCords["lng"] +
-          "&exclude=minutely,hourly&units=imperial&appid=8956ae2d4e83819acd88b4e5164c6a82",
+          `https://api.openweathermap.org/data/2.5/onecall?lat=
+          ${cityCords["lat"]}
+          &lon=
+          ${cityCords["lng"]}&exclude=minutely,hourly&units=imperial&appid=${apiKey}`,
         type: "GET",
         success: function (results) {
           currentDate$.text(
@@ -73,7 +72,7 @@ function cityWeatherData() {
           let currentWeatherIcon = results.current.weather[0].icon;
           forecastIcon$.attr(
             "src",
-            "http://openweathermap.org/img/w/" + currentWeatherIcon + ".png"
+            `http://openweathermap.org/img/w/${currentWeatherIcon}.png`
           );
           temp$.text(results.current.temp);
           wind$.text(results.current.wind_speed);
@@ -85,7 +84,7 @@ function cityWeatherData() {
           let weatherIcon1 = results.daily[1].weather[0].icon;
           day0Icon$.attr(
             "src",
-            "http://openweathermap.org/img/w/" + weatherIcon1 + ".png"
+            `http://openweathermap.org/img/w/${weatherIcon1}.png`
           );
           day0Temp$.text(results.daily[1].temp.day);
           day0Wind$.text(results.daily[1].wind_speed);
@@ -96,7 +95,7 @@ function cityWeatherData() {
           let weatherIcon2 = results.daily[2].weather[0].icon;
           day1Icon$.attr(
             "src",
-            "http://openweathermap.org/img/w/" + weatherIcon2 + ".png"
+            `http://openweathermap.org/img/w/${weatherIcon2}.png`
           );
           day1Temp$.text(results.daily[2].temp.day);
           day1Wind$.text(results.daily[2].wind_speed);
@@ -107,7 +106,7 @@ function cityWeatherData() {
           let weatherIcon3 = results.daily[3].weather[0].icon;
           day2Icon$.attr(
             "src",
-            "http://openweathermap.org/img/w/" + weatherIcon3 + ".png"
+            `http://openweathermap.org/img/w/${weatherIcon3}.png`
           );
           day2Temp$.text(results.daily[3].temp.day);
           day2Wind$.text(results.daily[3].wind_speed);
@@ -118,7 +117,7 @@ function cityWeatherData() {
           let weatherIcon4 = results.daily[4].weather[0].icon;
           day3Icon$.attr(
             "src",
-            "http://openweathermap.org/img/w/" + weatherIcon4 + ".png"
+            `http://openweathermap.org/img/w/${weatherIcon4}.png`
           );
           day3Temp$.text(results.daily[4].temp.day);
           day3Wind$.text(results.daily[4].wind_speed);
@@ -129,7 +128,7 @@ function cityWeatherData() {
           let weatherIcon5 = results.daily[5].weather[0].icon;
           day4Icon$.attr(
             "src",
-            "http://openweathermap.org/img/w/" + weatherIcon5 + ".png"
+            `http://openweathermap.org/img/w/${weatherIcon5}.png`
           );
           day4Temp$.text(results.daily[5].temp.day);
           day4Wind$.text(results.daily[5].wind_speed);
